@@ -310,7 +310,7 @@ contract TeamTreasure is Ownable {
     IERC20 public token;
     uint public startTimestamp;
     uint public period = 30 days;
-    uint public unlockAmountPeriod = 250000000000000000000000;
+    uint public unlockAmountPeriod = 100000000000000000000000;
 
     constructor(IERC20 _token) public Ownable() {
         token = _token;
