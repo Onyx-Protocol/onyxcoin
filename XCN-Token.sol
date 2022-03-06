@@ -1,4 +1,4 @@
-pragma solidity ^0.5.2;
+pragma solidity 0.5.16;
 
 /**
  * @title Roles
@@ -423,7 +423,7 @@ contract ERC20Mintable is ERC20, MinterRole {
      * @return A boolean that indicates if the operation was successful.
      */
     function mint(address to, uint256 value) public returns (bool) {
-        require(CHNInterface(MINT_BASE_TOKEN).balanceOf(msg.sender) > value, "Mint Base Token Insufficient");
+        require(CHNInterface(MINT_BASE_TOKEN).balanceOf(msg.sender) >= value, "Mint Base Token Insufficient");
         require(totalSupply().add(value) < MAX_SUPPLY_AMOUNT, "Mint limited max supply");
         CHNInterface(MINT_BASE_TOKEN).burn(value);
         _mint(to, value);
@@ -474,9 +474,9 @@ contract ChainToken is ERC20Mintable, ERC20Detailed {
     using SafeMath96 for uint96;
 
     uint8 public constant DECIMALS = 18;
-    uint256 public constant INITIAL_SUPPLY = 20000000 * (10 ** uint256(DECIMALS));
+    uint256 public constant INITIAL_SUPPLY = 20000000000 * (10 ** uint256(DECIMALS));
     uint256 public constant MAX_SUPPLY = 68895442185 * (10 ** uint256(DECIMALS));
-    address public constant MINT_BASE = 0x41C37A4683d6a05adB31c39D71348A8403B13Ca9;
+    address public constant MINT_BASE = 0xd9145CCE52D386f254917e481eB44e9943F39138;
 
     /// @notice A record of each accounts delegate
     mapping (address => address) public delegates;
@@ -551,9 +551,9 @@ contract ChainToken is ERC20Mintable, ERC20Detailed {
         bytes32 structHash = keccak256(abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry));
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "Comp::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "Comp::delegateBySig: invalid nonce");
-        require(now <= expiry, "Comp::delegateBySig: signature expired");
+        require(signatory != address(0), "Xcn::delegateBySig: invalid signature");
+        require(nonce == nonces[signatory]++, "Xcn::delegateBySig: invalid nonce");
+        require(now <= expiry, "Xcn::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -575,7 +575,7 @@ contract ChainToken is ERC20Mintable, ERC20Detailed {
      * @return The number of votes the account had as of the given block
      */
     function getPriorVotes(address account, uint blockNumber) public view returns (uint256) {
-        require(blockNumber < block.number, "Comp::getPriorVotes: not yet determined");
+        require(blockNumber < block.number, "Xcn::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -637,7 +637,7 @@ contract ChainToken is ERC20Mintable, ERC20Detailed {
     }
 
     function _writeCheckpoint(address delegatee, uint32 nCheckpoints, uint256 oldVotes, uint256 newVotes) internal {
-      uint32 blockNumber = safe32(block.number, "Comp::_writeCheckpoint: block number exceeds 32 bits");
+      uint32 blockNumber = safe32(block.number, "Xcn::_writeCheckpoint: block number exceeds 32 bits");
 
       if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
           checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
