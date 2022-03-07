@@ -470,7 +470,7 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-contract ChainToken is ERC20Mintable, ERC20Detailed {
+contract Chain is ERC20Mintable, ERC20Detailed {
     using SafeMath96 for uint96;
 
     uint8 public constant DECIMALS = 18;
@@ -511,7 +511,7 @@ contract ChainToken is ERC20Mintable, ERC20Detailed {
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      */
-    constructor () public ERC20Detailed("ChainToken", "XCN", DECIMALS) ERC20Mintable(MINT_BASE, MAX_SUPPLY) {
+    constructor () public ERC20Detailed("Chain", "XCN", DECIMALS) ERC20Mintable(MINT_BASE, MAX_SUPPLY) {
         _mint(msg.sender, INITIAL_SUPPLY);
     }
 
