@@ -424,9 +424,10 @@ contract ERC20Mintable is ERC20, MinterRole {
      */
     function mint(address to, uint256 value) public returns (bool) {
         require(CHNInterface(MINT_BASE_TOKEN).balanceOf(msg.sender) >= value, "Mint Base Token Insufficient");
-        require(totalSupply().add(value) < MAX_SUPPLY_AMOUNT, "Mint limited max supply");
+        require(totalSupply().add(value.mul(1000)) < MAX_SUPPLY_AMOUNT, "Mint limited max supply");
+        IERC20(MINT_BASE_TOKEN).transferFrom(msg.sender, address(this), value);
         CHNInterface(MINT_BASE_TOKEN).burn(value);
-        _mint(to, value);
+        _mint(to, value.mul(1000));
         return true;
     }
 }
@@ -474,7 +475,7 @@ contract Chain is ERC20Mintable, ERC20Detailed {
     using SafeMath96 for uint96;
 
     uint8 public constant DECIMALS = 18;
-    uint256 public constant INITIAL_SUPPLY = 20000000000 * (10 ** uint256(DECIMALS));
+    uint256 public constant INITIAL_SUPPLY = 21537311000 * (10 ** uint256(DECIMALS));
     uint256 public constant MAX_SUPPLY = 68895442185 * (10 ** uint256(DECIMALS));
     address public constant MINT_BASE = 0x41C37A4683d6a05adB31c39D71348A8403B13Ca9;
 
