@@ -1,2 +1,2 @@
-# chain-token
-Chain Token (CHN) smart contract
+# Chain (XCN) Token
+Chain Token (XCN) smart contracts and audits. 
