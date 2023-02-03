@@ -1,2 +1,2 @@
-# Chain (XCN) Token
-Chain Token (XCN) smart contracts and audits. 
+# Onyxcoin (XCN)
+Onyxcoin (XCN) smart contracts and audits. 
